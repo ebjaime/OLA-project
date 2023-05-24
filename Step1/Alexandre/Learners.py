@@ -26,9 +26,11 @@ class TS_Pricing_Learner(Learner): # Thompson-Sampling (reward: number of purcha
 
     def pull_arm(self):
         if(self.t < self.n_arms):
-            return self.t
-        idx = np.argmax(np.random.beta(self.beta_parameters[:,0],self.beta_parameters[:,1])*self.prices)
-        return idx
+            return self.t, self.prices[self.t]
+        sampled_conversion_rate = np.random.beta(self.beta_parameters[:,0],self.beta_parameters[:,1])
+        idx = np.argmax(sampled_conversion_rate*self.prices)
+        sampled_value_of_click = np.max(sampled_conversion_rate*self.prices)
+        return idx, sampled_value_of_click
 
     # update parameters each time a reward (# of people that buy) is observed
     def update(self,pulled_arm, reward, n_clicks):
@@ -51,10 +53,10 @@ class UCB_Pricing_Learner(Learner): # UCB1 (reward: number of conversions; actua
 
     def pull_arm(self):
         if(self.t < self.n_arms):
-            return self.t
+            return self.t, self.prices[self.t]
         upper_bound = self.empirical_means + self.confidence
         pulled_arm = np.random.choice(np.where(upper_bound == upper_bound.max())[0])
-        return pulled_arm
+        return pulled_arm, upper_bound.max()
 
     def update(self, pulled_arm, reward, n_clicks):
         self.t += 1
