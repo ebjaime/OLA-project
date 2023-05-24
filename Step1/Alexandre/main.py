@@ -120,7 +120,7 @@ plt.xlabel("t")
 plt.plot(np.cumsum(np.mean(opt - ts_rewards_per_experiment, axis=0)), 'r')
 plt.plot(np.cumsum(np.mean(opt - ucb_rewards_per_experiment, axis=0)), 'b')
 
-time = range(0, 365)
+time = range(0, T)
 ts_std = np.std(np.cumsum(opt - ts_rewards_per_experiment, axis=1), axis=0)
 ts_metric= np.mean(np.cumsum(opt - ts_rewards_per_experiment, axis=1), axis=0)
 plt.fill(np.concatenate([time, time[::-1]]),
@@ -134,7 +134,7 @@ plt.fill(np.concatenate([time, time[::-1]]),
          alpha=.5, fc='b', ec=None, label='standard deviation')
 
 plt.legend(["TS", "UCB"])
-plt.show()
+# plt.show()
 
 
 plt.figure(1)
@@ -142,7 +142,7 @@ plt.ylabel("Cumulative reward")
 plt.xlabel("t")
 plt.plot(np.cumsum(np.mean(ts_rewards_per_experiment, axis=0)), 'r')
 
-time = range(0, 365)
+time = range(0, T)
 ts_std = np.std(np.cumsum(ts_rewards_per_experiment, axis=1), axis=0)
 ts_metric= np.mean(np.cumsum(ts_rewards_per_experiment, axis=1), axis=0)
 plt.fill(np.concatenate([time, time[::-1]]),
@@ -157,7 +157,7 @@ plt.fill(np.concatenate([time, time[::-1]]),
 
 plt.plot(np.cumsum(np.mean(ucb_rewards_per_experiment, axis=0)), 'b')
 plt.legend(["TS", "UCB"])
-plt.show()
+# plt.show()
 
 
 plt.figure(2)
@@ -166,7 +166,7 @@ plt.xlabel("t")
 plt.plot(np.mean(opt - ts_rewards_per_experiment, axis=0), 'r')
 plt.plot(np.mean(opt - ucb_rewards_per_experiment, axis=0), 'b')
 
-time = range(0, 365)
+time = range(0, T)
 ts_std = np.std(opt - ts_rewards_per_experiment, axis=0)
 ts_metric= np.mean(opt - ts_rewards_per_experiment, axis=0)
 plt.fill(np.concatenate([time, time[::-1]]),
@@ -180,7 +180,7 @@ plt.fill(np.concatenate([time, time[::-1]]),
          alpha=.5, fc='b', ec=None, label='standard deviation')
 
 plt.legend(["TS", "UCB"])
-plt.show()
+# plt.show()
 
 
 plt.figure(3)
@@ -189,7 +189,7 @@ plt.xlabel("t")
 plt.plot(np.mean(ts_rewards_per_experiment, axis=0), 'r')
 plt.plot(np.mean(ucb_rewards_per_experiment, axis=0), 'b')
 
-time = range(0, 365)
+time = range(0, T)
 ts_std = np.std(ts_rewards_per_experiment, axis=0)
 ts_metric= np.mean(ts_rewards_per_experiment, axis=0)
 plt.fill(np.concatenate([time, time[::-1]]),
