@@ -4,7 +4,7 @@ from sklearn.gaussian_process.kernels import RBF, ConstantKernel as C
 
 
 class Learner:
-    def __init__(self,n_arms):
+    def __init__(self, n_arms):
         self.n_arms = n_arms
         self.t = 0                                              # current round value
         self.rewards_per_arm = [[] for i in range(n_arms)]  # value of collected rewards for each round and for each arm

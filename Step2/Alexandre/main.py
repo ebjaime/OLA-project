@@ -1,14 +1,15 @@
 import matplotlib.pyplot as plt
 from tqdm import tqdm
 import numpy as np
+import time
 
 from Enviroment import Environment
 from Learners import GPTS_Learner
 
 
 # generic
-T = 10                               # horizon of experiment
-n_experiments = 100
+T = 365                              # horizon of experiment
+n_experiments = 10
 
 # pricing
 n_prices = 5
@@ -37,7 +38,7 @@ def costs(x):
 
 
 opt_bid = bids[np.argmax(opt_rate*prices[np.argmax(p*prices)]*clicks(bids)-costs(bids))]
-fig, ax = plt.subplots()
+fig, ax = plt.subplots(num=200)
 ax.plot(bids, opt_rate*prices[np.argmax(p*prices)]*clicks(bids), 'blue', bids, costs(bids), 'orange')
 ax.legend(["Number of clicks", "Cumulative Costs"])
 ax.axvline(opt_bid, c='red')
@@ -47,6 +48,7 @@ print("idx: " + str(np.argmax(opt_rate*prices[np.argmax(p*prices)]*clicks(bids)-
 
 # experiments
 gpts_rewards_per_experiment = []
+execution_times = np.array([0.0 for i in range(T)])
 
 for e in tqdm(range(0, n_experiments)):  # cycle on experiments
     env = Environment(n_arms=n_prices,
@@ -60,12 +62,17 @@ for e in tqdm(range(0, n_experiments)):  # cycle on experiments
                                 arms=bids)
 
     for t in range(0, T):  # cycle on time horizon
+        time_start = time.time()
 
         # GPTS
         pulled_price = np.argmax(p * prices)
         pulled_bid = gpts_learner.pull_arm(opt_rate * prices[pulled_price])
         reward_price, reward_click, reward_cost = env.round(pulled_price, pulled_bid)
         gpts_learner.update(pulled_bid, [reward_click, reward_cost, reward_price])
+
+        time_end = time.time()
+        execution_times[t] += (time_end - time_start) / n_experiments
+        # print("For t=" + str(t) + ": " + str(time_end - time_start) + "s")
 
     gpts_rewards_per_experiment.append(
         prices[np.argmax(p * prices)] * gpts_learner.collected_buyers - gpts_learner.collected_costs)
@@ -130,5 +137,11 @@ gpts_metric = np.mean(gpts_rewards_per_experiment, axis=0)
 plt.fill(np.concatenate([time, time[::-1]]),
          np.concatenate([gpts_metric - gpts_std, (gpts_metric + gpts_std)[::-1]]),
          alpha=.5, fc='r', ec=None, label='standard deviation')
+
+
+plt.figure(100)
+plt.ylabel("Execution times")
+plt.xlabel("t")
+plt.plot(execution_times)
 
 plt.show()
