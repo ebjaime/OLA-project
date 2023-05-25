@@ -141,6 +141,7 @@ plt.figure(1)
 plt.ylabel("Cumulative reward")
 plt.xlabel("t")
 plt.plot(np.cumsum(np.mean(ts_rewards_per_experiment, axis=0)), 'r')
+plt.plot(np.cumsum(np.mean(ucb_rewards_per_experiment, axis=0)), 'b')
 
 time = range(0, T)
 ts_std = np.std(np.cumsum(ts_rewards_per_experiment, axis=1), axis=0)
@@ -155,7 +156,6 @@ plt.fill(np.concatenate([time, time[::-1]]),
          np.concatenate([ucb_metric - ucb_std, (ucb_metric+ ucb_std)[::-1]]),
          alpha=.5, fc='b', ec=None, label='standard deviation')
 
-plt.plot(np.cumsum(np.mean(ucb_rewards_per_experiment, axis=0)), 'b')
 plt.legend(["TS", "UCB"])
 # plt.show()
 

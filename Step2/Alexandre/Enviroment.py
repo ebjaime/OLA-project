@@ -1,7 +1,7 @@
 import numpy as np
 
 
-class Environment():
+class Environment:
 
     def __init__(self, n_arms, probabilities, bids, average_number_of_clicks, average_cum_daily_cost,noise_clicks,noise_cost):
         self.n_arms = n_arms                                            # number of prices
