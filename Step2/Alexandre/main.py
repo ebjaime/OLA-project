@@ -9,7 +9,7 @@ from Learners import GPTS_Learner
 
 # generic
 T = 365                              # horizon of experiment
-n_experiments = 10
+n_experiments = 1
 
 # pricing
 n_prices = 5

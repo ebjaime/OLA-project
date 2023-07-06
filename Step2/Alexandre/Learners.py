@@ -35,9 +35,9 @@ class GPTS_Learner(Learner):
         kernel_clicks = C(1.0, (1e-3, 1e8)) * RBF(1.0, (1e-3, 1e8)) # kernel (squared exponential) with the range of the parameters
         kernel_costs = C(1.0, (1e-3, 1e8)) * RBF(1.0, (1e-3, 1e8))  # kernel (squared exponential) with the range of the parameters
         self.gp_clicks = GaussianProcessRegressor(kernel=kernel_clicks, alpha=alpha_clicks**2,
-                                                  n_restarts_optimizer=5)  # (normalize_y = True)
+                                                  n_restarts_optimizer=2)  # (normalize_y = True)
         self.gp_costs = GaussianProcessRegressor(kernel=kernel_costs, alpha=alpha_costs**2,
-                                                 n_restarts_optimizer=5)     # (normalize_y = True)
+                                                 n_restarts_optimizer=2)     # (normalize_y = True)
 
     # we also need to update the value of the least pulled arm (reward[0]: n_clicks, reward[1]: costs)
     def update_observations(self, arm_idx, reward):
