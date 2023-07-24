@@ -1,4 +1,4 @@
-# OLA-project (project 1: pricing-advertising)
+# Pricing and advertising of a book in e-commerce
 
 Jaime Enrı́quez, Manuel Piliego, Alexandre Pugin, Aloı̈s Bozon and Pasha Alidadi
 
